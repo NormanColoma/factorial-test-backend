@@ -51,9 +51,8 @@ describe('MongoDbHandler', () => {
       await subject.getInstance();
 
       expect(createIndexesMock.createIndexes).toHaveBeenCalledWith([
-        {name: 'startDate', key: {'startDate': 1}},
-        {name: 'endDate', key: {'endDate': 1}},
-        {name: 'providerId', key: {'providerId': 1}},
+        {name: 'date', key: {'date': 1}},
+        {name: 'name', key: {'name': 1}},
       ]);
     });
 
