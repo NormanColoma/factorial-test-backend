@@ -21,17 +21,10 @@ const isUUID = (value) => {
   return regexExp.test(value);
 };
 
-const isDate = (value) => {
-  const regexExp = /^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}?$/;
-
-  return regexExp.test(value);
-};
-
 module.exports = {
   isNumber,
   isBoolean,
   isNull,
   isString,
   isUUID,
-  isDate,
 };

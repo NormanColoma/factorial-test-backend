@@ -13,7 +13,7 @@ class MongoDbHandler {
     this.#client = await this.#mongo.connect(mongoConnectionUri,
         {serverSelectionTimeoutMS: timeout});
     this.#instance = await this.#client.db(dbName);
-    await this.#instance.collection('forecasts').createIndexes([
+    await this.#instance.collection('metrics').createIndexes([
       {name: 'date', key: {'date': 1}},
       {name: 'name', key: {'name': 1}},
     ]);

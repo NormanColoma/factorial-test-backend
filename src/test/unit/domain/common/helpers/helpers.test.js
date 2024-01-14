@@ -1,4 +1,4 @@
-const {isBoolean, isNull, isString, isDate, isUUID} = require('../../../../../domain/common/helpers');
+const {isBoolean, isNull, isString, isUUID} = require('../../../../../domain/common/helpers');
 describe('Helpers', () => {
   describe('is boolean', () => {
     test('should return true if param is boolean', () => {
@@ -51,20 +51,6 @@ describe('Helpers', () => {
 
     test('should return false if param is not uuid', () => {
       const response = isUUID('b3b6');
-
-      expect(response).toBeFalsy();
-    });
-  });
-
-  describe('is date', () => {
-    test('should return true if param is date', () => {
-      const response = isDate('2021-02-01T17:32:28');
-
-      expect(response).toBeTruthy();
-    });
-
-    test('should return false if param is not date', () => {
-      const response = isDate('2021-02-01');
 
       expect(response).toBeFalsy();
     });

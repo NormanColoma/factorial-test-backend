@@ -11,7 +11,7 @@ const run = {
   },
   mongo: {
     mongoConnectionUri,
-    dbName: process.env.MONGO_DB_NAME || 'weather-forecast',
+    dbName: process.env.MONGO_DB_NAME || 'weather-metrics',
     timeout: mongoTimeout,
   },
   logging: {
