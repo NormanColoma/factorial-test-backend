@@ -28,7 +28,7 @@ jobs:
         cache: 'npm'
     - name: Install dependencies
     - run: npm ci
-        working-directory: './src'
+      working-directory: './src'
     - name: Run tests
     - run: npm test
-        working-directory: './src'
+      working-directory: './src'
