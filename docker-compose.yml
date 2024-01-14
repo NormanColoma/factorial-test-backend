@@ -3,16 +3,17 @@ version: "3.7"
 services:
   api:
     build: .
+    command: npm run dev
     depends_on:
       - mongo
     ports:
       - 3000:3000
     environment:
       NODE_ENV: run
+      MONGO_DB_NAME: weather-metrics
     volumes:
-      - .:/usr/src/app
+      - ./src:/usr/src/app
       - /usr/src/app/node_modules
-    command: npm run dev
     networks:
       - factorial
   mongo:

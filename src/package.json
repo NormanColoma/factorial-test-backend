@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "NODE_ENV=run nodemon --inspect=0.0.0.0 -r newrelic index.js",
+    "dev": "NODE_ENV=run nodemon --inspect=0.0.0.0 index.js",
     "pretest": "npm run lint",
     "test": "NODE_ENV=test jest --collectCoverage --silent --testPathPattern=/test/unit --maxWorkers=1 --forceExit --passWithNoTests",
     "lint": "eslint ."
