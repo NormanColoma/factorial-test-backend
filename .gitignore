@@ -1,0 +1,9 @@
+src/node_modules
+src/coverage
+node_modules/
+src/.env
+npm-debug.log
+.nyc_output
+.idea
+data
+.DS_Store

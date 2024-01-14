@@ -1,0 +1,17 @@
+{
+  "extends": "google",
+  "rules": {
+    "max-len": [2, {
+      "code": 120,
+      "ignorePattern": "^const .* = require.*"
+    }],
+    "require-jsdoc" : 0
+  },
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "requireConfigFile": false
+  },
+  "env": {
+    "es6": true
+  }
+}
