@@ -13,7 +13,7 @@ const errorHandler = (err, req, res, next) => {
     message: 'Internal Server Error',
     code: errorCode,
   };
-  return res.status(SERVER_ERROR).json({error, data: null});
+  return res.status(SERVER_ERROR).json({error});
 };
 
 module.exports = errorHandler;

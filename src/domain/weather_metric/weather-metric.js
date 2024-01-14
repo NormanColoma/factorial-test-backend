@@ -61,10 +61,10 @@ class WeatherMetric extends AggregateRoot {
   set #_timestamp(timestamp) {
     if (isNull(timestamp)) {
       throw new InvalidWeatherMetricError('Field timestamp cannot be blank');
+    } else if (isNaN(Date.parse(timestamp))) {
+      throw new InvalidWeatherMetricError('Field timestamp must be a valid date');
     }
-    const validDate = Date.parse(timestamp);
-    isNaN(validDate) ? throw new InvalidWeatherMetricError('Field timestamp must be a valid date') :
-        this.#timestamp = timestamp;
+    this.#timestamp = new Date(timestamp);
   }
 
   get value() {

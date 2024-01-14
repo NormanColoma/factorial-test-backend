@@ -7,6 +7,10 @@ const MongoDbHandler = require('./infrastructure/persistence/mongo/mongo-db-hand
 const muuid = require('uuid-mongodb');
 const idGenerator = require('./domain/common/services/id-generator');
 const WinstonLogger = require('./infrastructure/logging/winston-logger');
+const CreateWeatherMetric = require('./application/create-weather-metric');
+const WeatherMetricMongoRepository = require('./infrastructure/persistence/mongo/weather-metric-mongo-repository');
+const WeatherMetricMongoParser = require('./infrastructure/persistence/mongo/weather-metric-mongo-parser');
+const RabbitMqEventBus = require('./infrastructure/bus/event/rabbit-mq-event-bus');
 
 const container = awilix.createContainer({
   injectionMode: awilix.InjectionMode.PROXY,
@@ -21,6 +25,10 @@ container.register({
   mongoDbHandler: awilix.asClass(MongoDbHandler).singleton(),
   mongo: awilix.asValue(MongoClient),
   muuid: awilix.asValue(muuid),
+  createWeatherMetric: awilix.asClass(CreateWeatherMetric).singleton(),
+  weatherMetricRepository: awilix.asClass(WeatherMetricMongoRepository).singleton(),
+  weatherMetricParser: awilix.asClass(WeatherMetricMongoParser).singleton(),
+  eventBus: awilix.asClass(RabbitMqEventBus).singleton(),
 });
 
 module.exports = container;
