@@ -1,4 +1,4 @@
-const {CREATED} = require('./http-status-code');
+const {CREATED, OK} = require('./http-status-code');
 const createWeatherMetricCommandBuilder = require(
     '../../application/create-weather-metric/create-weather-metric-command');
 const container = require('../../container');
@@ -21,5 +21,16 @@ router.post('/', [body('name').isString(), body('value').notEmpty(), body('times
         next(err);
       }
     });
+
+router.get('/', async (req, res, next) => {
+  try {
+    const {from, to} = req.query;
+    const getWeatherMetrics = container.resolve('getWeatherMetrics');
+    const response = await getWeatherMetrics.get({from, to});
+    res.status(OK).json(response);
+  } catch (err) {
+    next(err);
+  }
+});
 
 module.exports = router;

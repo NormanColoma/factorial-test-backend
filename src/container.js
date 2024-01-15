@@ -11,6 +11,7 @@ const CreateWeatherMetric = require('./application/create-weather-metric');
 const WeatherMetricMongoRepository = require('./infrastructure/persistence/mongo/weather-metric-mongo-repository');
 const WeatherMetricMongoParser = require('./infrastructure/persistence/mongo/weather-metric-mongo-parser');
 const RabbitMqEventBus = require('./infrastructure/bus/event/rabbit-mq-event-bus');
+const GetWeatherMetrics = require('./application/get-weather-metrics');
 
 const container = awilix.createContainer({
   injectionMode: awilix.InjectionMode.PROXY,
@@ -26,6 +27,7 @@ container.register({
   mongo: awilix.asValue(MongoClient),
   muuid: awilix.asValue(muuid),
   createWeatherMetric: awilix.asClass(CreateWeatherMetric).singleton(),
+  getWeatherMetrics: awilix.asClass(GetWeatherMetrics).singleton(),
   weatherMetricRepository: awilix.asClass(WeatherMetricMongoRepository).singleton(),
   weatherMetricParser: awilix.asClass(WeatherMetricMongoParser).singleton(),
   eventBus: awilix.asClass(RabbitMqEventBus).singleton(),

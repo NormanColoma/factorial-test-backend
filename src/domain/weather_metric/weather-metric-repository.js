@@ -8,6 +8,10 @@ class WeatherMetricRepository {
   async save(weatherMetric) {
     throw new Error('Method not implemented');
   }
+
+  async findBetweenDates() {
+    throw new Error('Method not implemented');
+  }
 }
 
 module.exports = WeatherMetricRepository;

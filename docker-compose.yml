@@ -4,6 +4,8 @@ services:
   api:
     build: .
     command: npm run dev
+    environment:
+      NODE_ENV: run
     depends_on:
       - mongo
     ports:
