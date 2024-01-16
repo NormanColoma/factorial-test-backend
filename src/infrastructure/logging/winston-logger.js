@@ -15,6 +15,7 @@ const logger = winston.createLogger({
       errors({stack: false}),
       json()),
   transports: [new winston.transports.Console()],
+  silent: process.env.NODE_ENV === 'test',
 });
 
 class WinstonLogger extends Logger {

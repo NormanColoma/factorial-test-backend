@@ -3,7 +3,7 @@ const createWeatherMetricCommandBuilder = require(
     '../../application/create-weather-metric/create-weather-metric-command');
 const container = require('../../container');
 const {isRequestValid} = require('./middleware/rest-validator');
-const {body} = require('express-validator');
+const {body, query} = require('express-validator');
 const InvalidWeatherMetricError = require(
     '../../domain/weather_metric/invalid-weather-metric-error');
 // eslint-disable-next-line new-cap
@@ -32,15 +32,16 @@ router.post('/', [body('name').isString(), body('value').notEmpty(), body('times
       }
     });
 
-router.get('/', async (req, res, next) => {
-  try {
-    const {from, to} = req.query;
-    const getWeatherMetrics = container.resolve('getWeatherMetrics');
-    const response = await getWeatherMetrics.get({from, to});
-    res.status(OK).json(response);
-  } catch (err) {
-    next(err);
-  }
-});
+router.get('/', [query('from').isISO8601().toDate(), query('to').isISO8601().toDate()],
+    isRequestValid, async (req, res, next) => {
+      try {
+        const {from, to} = req.query;
+        const getWeatherMetrics = container.resolve('getWeatherMetrics');
+        const response = await getWeatherMetrics.get({from, to});
+        res.status(OK).json(response);
+      } catch (err) {
+        next(err);
+      }
+    });
 
 module.exports = router;
