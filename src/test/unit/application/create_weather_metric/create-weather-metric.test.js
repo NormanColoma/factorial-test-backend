@@ -2,6 +2,8 @@ const CreateWeatherMetric = require('../../../../application/create-weather-metr
 const createWeatherMetricCommandBuilder = require('../../../../application/create-weather-metric/create-weather-metric-command');
 const WeatherMetric = require('../../../../domain/weather_metric/weather-metric');
 const WeatherMetricCreatedEvent = require('../../../../domain/weather_metric/weather-metric-created-event');
+const {weatherMetricTypes} = require(
+    '../../../../domain/weather_metric/waether-metric-types');
 
 describe('Create weather metric application service', () => {
   const weatherMetricRepositoryMock = {
@@ -32,7 +34,7 @@ describe('Create weather metric application service', () => {
   });
 
   test('should create a weather metric and publish its events', async () => {
-    const name = 'name';
+    const name = weatherMetricTypes.TEMPERATURE;
     const timestamp = '2021-02-01T17:32:28Z';
     const value = 1.0;
     const id = 'b3b6dfd5-f3b3-45b5-9fb9-23a9b75a13f9';
