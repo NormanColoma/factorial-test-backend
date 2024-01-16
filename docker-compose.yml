@@ -2,7 +2,9 @@ version: "3.7"
 
 services:
   api:
-    build: .
+    build:
+      context: backend
+      dockerfile: Dockerfile
     command: npm run dev
     environment:
       NODE_ENV: run
@@ -14,7 +16,7 @@ services:
       NODE_ENV: run
       MONGO_DB_NAME: weather-metrics
     volumes:
-      - ./src:/usr/src/app
+      - ./backend/src:/usr/src/app
       - /usr/src/app/node_modules
     networks:
       - factorial
