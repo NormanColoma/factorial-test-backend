@@ -3,12 +3,14 @@ const {server, app} = require('../../../..');
 const request = supertest(app);
 const container = require('../../../../container');
 const awilix = require('awilix');
-const {BAD_REQUEST, CREATED, SERVER_ERROR} = require('../../../../infrastructure/rest/http-status-code');
+const {BAD_REQUEST, CREATED, SERVER_ERROR, UNPROCESSABLE_ENTITY} = require('../../../../infrastructure/rest/http-status-code');
+const InvalidWeatherMetricError = require(
+    '../../../../domain/weather_metric/invalid-weather-metric-error');
 
 describe('Weather Metric Controller', () => {
   afterEach(async () => {
     await server.close();
-    jest.clearAllMocks();
+    jest.resetAllMocks();
   });
 
   describe('POST Create Weather Metric', () => {
@@ -104,6 +106,23 @@ describe('Weather Metric Controller', () => {
       };
 
       expect(status).toBe(BAD_REQUEST);
+      expect(body).toEqual(expectedError);
+      expect(headers['content-type']).toContain('application/json');
+    });
+
+    test('should return 422 when InvalidWeatherMetricError is thrown', async () => {
+      idGeneratorMock.generate.mockReturnValue('fakeCode');
+      createWeatherMetric.create.mockRejectedValue(new InvalidWeatherMetricError('fakeError'));
+      const res = await request.post('/api/v1/weather-metrics')
+          .send({name: 'fakeName', value: 1, timestamp: new Date()});
+      const {status, body, headers} = res;
+      const expectedError = {
+        error: {
+          message: 'fakeError',
+        },
+      };
+
+      expect(status).toBe(UNPROCESSABLE_ENTITY);
       expect(body).toEqual(expectedError);
       expect(headers['content-type']).toContain('application/json');
     });

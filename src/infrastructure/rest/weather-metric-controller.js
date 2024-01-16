@@ -1,9 +1,11 @@
-const {CREATED, OK} = require('./http-status-code');
+const {CREATED, OK, UNPROCESSABLE_ENTITY} = require('./http-status-code');
 const createWeatherMetricCommandBuilder = require(
     '../../application/create-weather-metric/create-weather-metric-command');
 const container = require('../../container');
 const {isRequestValid} = require('./middleware/rest-validator');
 const {body} = require('express-validator');
+const InvalidWeatherMetricError = require(
+    '../../domain/weather_metric/invalid-weather-metric-error');
 // eslint-disable-next-line new-cap
 const router = require('express').Router();
 
@@ -18,6 +20,14 @@ router.post('/', [body('name').isString(), body('value').notEmpty(), body('times
         const response = await createWeatherMetric.create(command);
         res.status(CREATED).json(response);
       } catch (err) {
+        if (err instanceof InvalidWeatherMetricError) {
+          const error = {
+            error: {
+              message: err.message,
+            },
+          };
+          res.status(UNPROCESSABLE_ENTITY).json(error);
+        }
         next(err);
       }
     });
