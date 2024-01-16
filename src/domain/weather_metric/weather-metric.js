@@ -86,6 +86,10 @@ class WeatherMetric extends AggregateRoot {
     this.#createdAt = createdAt;
   }
 
+  get timestampInMilliseconds() {
+    return this.timestamp.getTime();
+  }
+
   toObject() {
     return {
       id: this.id,

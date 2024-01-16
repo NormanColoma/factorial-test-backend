@@ -2,7 +2,7 @@ const getWeatherMetricsResponseBuilder = ({metrics, average}) => {
   const weatherMetrics = metrics.map((metric) => {
     return {
       name: metric.name,
-      timestamp: metric.timestamp.getTime(),
+      timestamp: metric.timestampInMilliseconds,
       value: metric.value,
     };
   });

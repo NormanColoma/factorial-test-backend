@@ -2,14 +2,16 @@ const getWeatherMetricsResponseBuilder = require('./get-weather-metrics-response
 
 class GetWeatherMetrics {
   #weatherMetricRepository;
-  constructor({weatherMetricRepository}) {
+  #averageCalculator;
+  constructor({weatherMetricRepository, averageCalculator}) {
     this.#weatherMetricRepository = weatherMetricRepository;
+    this.#averageCalculator = averageCalculator;
   }
 
   async get({from, to}) {
     const weatherMetrics = await this.#weatherMetricRepository.findBetweenDates({from, to});
 
-    const average = Math.round(weatherMetrics.reduce((acc, metric) => acc + metric.value, 0) / weatherMetrics.length);
+    const average = this.#averageCalculator.calculate(weatherMetrics);
 
     return getWeatherMetricsResponseBuilder({metrics: weatherMetrics, average});
   }

@@ -72,4 +72,12 @@ describe('Weather Metric Aggregate Root', () => {
     });
     expect(weatherMetric.getEvents()).toEqual([]);
   });
+
+  test('should return timestamp in milliseconds', () => {
+    const date = new Date();
+    const weatherMetric = WeatherMetric.build({id: 'b3b6dfd5-f3b3-45b5-9fb9-23a9b75a13f9', name: 'name',
+      timestamp: date, value: 1, date});
+
+    expect(weatherMetric.timestampInMilliseconds).toEqual(date.getTime());
+  });
 });
