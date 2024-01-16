@@ -50,6 +50,21 @@ describe('Weather Metric Aggregate Root', () => {
         .toThrow(new InvalidWeatherMetricError('Field value must be a valid number'));
   });
 
+  test('should throw error when value for precipitation is not between 0 and 100', () => {
+    expect(() => WeatherMetric.build({id: 'b3b6dfd5-f3b3-45b5-9fb9-23a9b75a13f9',
+      name: weatherMetricTypes.PRECIPITATION, timestamp: new Date(), value: 101}))
+        .toThrow(new InvalidWeatherMetricError('Field value must be between 0 and 100 for precipitation'));
+    expect(() => WeatherMetric.build({id: 'b3b6dfd5-f3b3-45b5-9fb9-23a9b75a13f9',
+      name: weatherMetricTypes.PRECIPITATION, timestamp: new Date(), value: -1}))
+        .toThrow(new InvalidWeatherMetricError('Field value must be between 0 and 100 for precipitation'));
+  });
+
+  test('should throw error when valu for wind speed is below 0', () => {
+    expect(() => WeatherMetric.build({id: 'b3b6dfd5-f3b3-45b5-9fb9-23a9b75a13f9',
+      name: weatherMetricTypes.WIND_SPEED, timestamp: new Date(), value: -1}))
+        .toThrow(new InvalidWeatherMetricError('Field value must be greater than or equal to 0 for wind speed'));
+  });
+
   test('should throw error when name is not a valid weather metric type', () => {
     expect(() => WeatherMetric.build({id: 'b3b6dfd5-f3b3-45b5-9fb9-23a9b75a13f9', name: 'invalid-name',
       timestamp: new Date(), value: 1}))

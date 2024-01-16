@@ -2,7 +2,7 @@ const AggregateRoot = require('../common/aggregate-root');
 const WeatherMetricCreatedEvent = require('./weather-metric-created-event');
 const {isNull, isUUID, isString, isNumber} = require('../common/helpers');
 const InvalidWeatherMetricError = require('./invalid-weather-metric-error');
-const {isValidMetricName} = require('./waether-metric-types');
+const {isValidMetricName, weatherMetricTypes} = require('./waether-metric-types');
 
 class WeatherMetric extends AggregateRoot {
   #id;
@@ -80,6 +80,17 @@ class WeatherMetric extends AggregateRoot {
       throw new InvalidWeatherMetricError('Field value cannot be blank');
     } else if (!isNumber(value)) {
       throw new InvalidWeatherMetricError('Field value must be a valid number');
+    }
+    switch (this.name) {
+      case weatherMetricTypes.WIND_SPEED:
+        if (value < 0) {
+          throw new InvalidWeatherMetricError('Field value must be greater than or equal to 0 for wind speed');
+        }
+        break;
+      case weatherMetricTypes.PRECIPITATION:
+        if (value < 0 || value > 100) {
+          throw new InvalidWeatherMetricError('Field value must be between 0 and 100 for precipitation');
+        }
     }
     this.#value = value;
   }
