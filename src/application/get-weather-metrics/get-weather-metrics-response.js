@@ -8,7 +8,11 @@ const getWeatherMetricsResponseBuilder = ({metrics, average}) => {
   });
 
   return {
-    average,
+    average: {
+      temperature: average.temperature,
+      windSpeed: average.windSpeed,
+      precipitation: average.precipitation,
+    },
     metrics: weatherMetrics,
   };
 };
