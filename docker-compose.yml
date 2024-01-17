@@ -6,8 +6,6 @@ services:
       context: backend
       dockerfile: Dockerfile
     command: npm run dev
-    environment:
-      NODE_ENV: run
     depends_on:
       - mongo
     ports:
@@ -15,9 +13,17 @@ services:
     environment:
       NODE_ENV: run
       MONGO_DB_NAME: weather-metrics
-    volumes:
-      - ./backend/src:/usr/src/app
-      - /usr/src/app/node_modules
+    networks:
+      - factorial
+  front:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    command: npm run start:production
+    depends_on:
+      - api
+    ports:
+      - 3001:3001
     networks:
       - factorial
   mongo:
