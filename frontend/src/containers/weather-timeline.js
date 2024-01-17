@@ -4,8 +4,11 @@ import {weatherMetricsReducer, initialWeatherMetricsState} from '../reducers';
 import {fetchWeatherMetrics} from '../actions/async';
 import weatherMetricTypes from '../domain/metric-types';
 import {DateTimePicker} from '@mui/x-date-pickers';
-import dayjs from 'dayjs';
 import {Button} from '@mui/material';
+import dayjs from 'dayjs';
+const utc = require('dayjs/plugin/utc')
+dayjs.extend(utc)
+
 
 const WeatherTimeline = () => {
   const [state, dispatch] = useReducer(weatherMetricsReducer, initialWeatherMetricsState);
@@ -14,13 +17,17 @@ const WeatherTimeline = () => {
   const [chartFormat, setChartFormat] = useState('time');
 
   useEffect(() => {
-    fetchWeatherMetrics(dispatch, {from: fromValue.valueOf(), to: toValue.valueOf()});
+    const from = fromValue.utc().format();
+    const to = toValue.utc().format();
+    fetchWeatherMetrics(dispatch, {from, to});
   }, []);
 
   const {metrics, average} = state;
   const handleOnClick = () => {
     setChartFormat(toValue.diff(fromValue, 'day') > 0 ? 'utc' : 'time');
-    fetchWeatherMetrics(dispatch, {from: fromValue.valueOf(), to: toValue.valueOf()});
+    const from = fromValue.utc().format();
+    const to = toValue.utc().format();
+    fetchWeatherMetrics(dispatch, {from, to});
   }
   return(
     <div>

@@ -4,8 +4,8 @@ import {setWeatherMetrics} from '../index';
 import WeatherAverage from '../../domain/weather-average';
 export const fetchWeatherMetrics = async (dispatch, {from, to}) => {
   const params = {
-    from: new Date(from).toISOString(),
-    to: new Date(to).toISOString(),
+    from,
+    to,
   }
 
   const response = await axios.get('http://localhost:3000/api/v1/weather-metrics', {params})

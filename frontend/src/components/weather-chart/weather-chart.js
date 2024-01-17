@@ -2,13 +2,14 @@ import {Box} from '@mui/material';
 import {LineChart} from '@mui/x-charts';
 import weatherMetricTypes from '../../domain/metric-types';
 import WeatherAverage from './weather-average/weather-average';
+import dayjs from 'dayjs';
 
 const WeatherChart = ({metrics = [], average, type, scaleFormat}) => {
   if (!metrics.length) {
     return;
   }
   const data = metrics.map((metric) => ({
-    time: new Date(metric.timestamp),
+    time: dayjs(metric.timestamp),
     value: metric.value,
   }));
 
