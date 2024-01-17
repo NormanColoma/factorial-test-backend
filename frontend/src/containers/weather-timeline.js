@@ -9,7 +9,7 @@ const WeatherTimeline = () => {
     fetchWeatherMetrics(dispatch);
   }, []);
 
-  const {metrics, loading} = state;
+  const {metrics} = state;
 
   return(
     <div>
