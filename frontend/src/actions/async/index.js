@@ -1,24 +1,7 @@
-import axios from 'axios';
-import WeatherMetric from '../../domain/weather-metric';
 import {setWeatherMetrics} from '../index';
-import WeatherAverage from '../../domain/weather-average';
+import container from '../../container';
 export const fetchWeatherMetrics = async (dispatch, {from, to}) => {
-  const params = {
-    from,
-    to,
-  }
-
-  const response = await axios.get('http://localhost:3000/api/v1/weather-metrics', {params})
-  const temperatureMetrics = response.data.metrics.temperature.map((metric) => new WeatherMetric(
-      {timestamp: metric.timestamp, type: metric.name, value: metric.value}));
-  const windSpeedMetrics = response.data.metrics.windSpeed.map((metric) => new WeatherMetric(
-      {timestamp: metric.timestamp, type: metric.name, value: metric.value}));
-  const precipitationMetrics = response.data.metrics.precipitation.map((metric) => new WeatherMetric(
-      {timestamp: metric.timestamp, type: metric.name, value: metric.value}));
-  const metrics = {
-    temperature: temperatureMetrics,
-    windSpeed: windSpeedMetrics,
-    precipitation: precipitationMetrics,
-  };
-  dispatch(setWeatherMetrics({metrics, average: new WeatherAverage(response.data.average)}));
+  const WeatherMetricsClient = container.resolve('weatherMetricsClient');
+  const {metrics, average} = await WeatherMetricsClient.getWeatherMetrics({from, to});
+  dispatch(setWeatherMetrics({metrics, average}));
 }
