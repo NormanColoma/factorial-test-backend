@@ -10,7 +10,7 @@ class WeatherMetric {
   }
 
   get timestamp() {
-    return new Date(this.#timestamp).toUTCString().replace('GMT', '');
+    return this.#timestamp;
   }
 
   get type() {
@@ -18,17 +18,9 @@ class WeatherMetric {
   }
 
   get value() {
-    switch (this.#type) {
-      case 'temperature':
-        return `${this.#value}°C`;
-      case 'windSpeed':
-        return `${this.#value}km/h`;
-      case 'precipitation':
-        return `${this.#value}%`;
-      default:
-        return this.#value;
-    }
+    return this.#value;
   }
+
 }
 
 export default WeatherMetric;

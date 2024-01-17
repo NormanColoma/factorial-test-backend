@@ -1,4 +1,4 @@
-import WeatherList from '../components/weather-list/weather-list';
+import WeatherChart from '../components/weather-chart/weather-chart';
 import {useEffect, useReducer} from 'react';
 import {weatherMetricsReducer, initialWeatherMetricsState} from '../reducers';
 import {fetchWeatherMetrics} from '../actions/async';
@@ -13,9 +13,9 @@ const WeatherTimeline = () => {
 
   return(
     <div>
-      <WeatherList metrics={metrics}>
+      <WeatherChart metrics={metrics}>
 
-      </WeatherList>
+      </WeatherChart>
     </div>
   )
 }
