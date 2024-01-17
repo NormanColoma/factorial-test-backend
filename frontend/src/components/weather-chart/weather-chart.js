@@ -1,8 +1,8 @@
 import {Box} from '@mui/material';
 import {LineChart} from '@mui/x-charts';
 
-const WeatherChart = ({metrics}) => {
-  const realData = metrics.map((metric) => ({
+const WeatherChart = ({metrics: {temperature = [], windSpeed = [], precipitation = []}}) => {
+  const realData = temperature.map((metric) => ({
     time: new Date(metric.timestamp),
     temperature: metric.value,
   }));
