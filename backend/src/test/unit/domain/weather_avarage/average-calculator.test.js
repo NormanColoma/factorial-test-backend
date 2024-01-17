@@ -1,5 +1,5 @@
 const AverageCalculator = require(
-    '../../../../domain/weather_metric/average-calculator');
+    '../../../../domain/weather_average/average-calculator');
 
 describe('AverageCalculator domain service', () => {
   let averageCalculator;

@@ -12,7 +12,7 @@ const WeatherMetricMongoRepository = require('./infrastructure/persistence/mongo
 const WeatherMetricMongoParser = require('./infrastructure/persistence/mongo/weather-metric-mongo-parser');
 const RabbitMqEventBus = require('./infrastructure/bus/event/rabbit-mq-event-bus');
 const GetWeatherMetrics = require('./application/get-weather-metrics');
-const AverageCalculator = require('./domain/weather_metric/average-calculator');
+const AverageCalculator = require('./domain/weather_average/average-calculator');
 
 const container = awilix.createContainer({
   injectionMode: awilix.InjectionMode.PROXY,

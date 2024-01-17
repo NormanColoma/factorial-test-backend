@@ -1,5 +1,5 @@
-const {weatherMetricTypes} = require('./waether-metric-types');
 const WeatherAverage = require('../weather_average/weather-average');
+const {weatherMetricTypes} = require('../weather_metric/waether-metric-types');
 
 class AverageCalculator {
   calculate(metrics) {
