@@ -32,11 +32,15 @@ describe('GetWeatherMetrics application service', () => {
     const to = new Date();
     const response = await getWeatherMetrics.get({from, to});
     expect(response).toEqual({
-      metrics: [
-        {timestamp: timestamp.getTime(), name: 'temperature', value: 1},
-        {timestamp: timestamp.getTime(), name: 'temperature', value: 2},
-        {timestamp: timestamp.getTime(), name: 'temperature', value: 3},
-      ],
+      metrics: {
+        temperature: [
+          {timestamp: timestamp.getTime(), name: 'temperature', value: 1},
+          {timestamp: timestamp.getTime(), name: 'temperature', value: 2},
+          {timestamp: timestamp.getTime(), name: 'temperature', value: 3},
+        ],
+        windSpeed: [],
+        precipitation: [],
+      },
       average: {
         temperature: 2,
         precipitation: 0,
