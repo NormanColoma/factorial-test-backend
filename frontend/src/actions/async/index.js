@@ -1,6 +1,7 @@
 import axios from 'axios';
 import WeatherMetric from '../../domain/weather-metric';
 import {setWeatherMetrics} from '../index';
+import WeatherAverage from '../../domain/weather-average';
 export const fetchWeatherMetrics = async (dispatch) => {
   const params = {
     from: '2024-01-15T00:00:00.000',
@@ -18,5 +19,5 @@ export const fetchWeatherMetrics = async (dispatch) => {
     windSpeed: windSpeedMetrics,
     precipitation: precipitationMetrics,
   };
-  dispatch(setWeatherMetrics(metrics));
+  dispatch(setWeatherMetrics({metrics, average: new WeatherAverage(response.data.average)}));
 }

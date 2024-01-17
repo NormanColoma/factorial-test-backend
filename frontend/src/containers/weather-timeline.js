@@ -10,13 +10,13 @@ const WeatherTimeline = () => {
     fetchWeatherMetrics(dispatch);
   }, []);
 
-  const {metrics} = state;
+  const {metrics, average} = state;
 
   return(
     <div>
-      <WeatherChart metrics={metrics.temperature} type={weatherMetricTypes.TEMPERATURE} />
-      <WeatherChart metrics={metrics.precipitation} type={weatherMetricTypes.PRECIPITATION} />
-      <WeatherChart metrics={metrics.windSpeed} type={weatherMetricTypes.WIND_SPEED} />
+      <WeatherChart metrics={metrics.temperature} average={average} type={weatherMetricTypes.TEMPERATURE} />
+      <WeatherChart metrics={metrics.precipitation} average={average} type={weatherMetricTypes.PRECIPITATION} />
+      <WeatherChart metrics={metrics.windSpeed} average={average} type={weatherMetricTypes.WIND_SPEED} />
     </div>
   )
 }
