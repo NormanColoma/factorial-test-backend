@@ -11,6 +11,7 @@ const WeatherTimeline = () => {
   const [state, dispatch] = useReducer(weatherMetricsReducer, initialWeatherMetricsState);
   const [fromValue, setFromValue] = useState(dayjs());
   const [toValue, setToValue] = useState(dayjs().hour(23).minute(59).second(59).millisecond(999));
+  const [chartFormat, setChartFormat] = useState('time');
 
   useEffect(() => {
     fetchWeatherMetrics(dispatch, {from: fromValue.valueOf(), to: toValue.valueOf()});
@@ -18,6 +19,7 @@ const WeatherTimeline = () => {
 
   const {metrics, average} = state;
   const handleOnClick = () => {
+    setChartFormat(toValue.diff(fromValue, 'day') > 0 ? 'utc' : 'time');
     fetchWeatherMetrics(dispatch, {from: fromValue.valueOf(), to: toValue.valueOf()});
   }
   return(
@@ -27,24 +29,20 @@ const WeatherTimeline = () => {
             label="From"
             onChange={(value) => setFromValue(value)}
             value={fromValue}
-            format="YYYY/MM/DD HH:mm:ss"
-            inputFormat="YYYY/MM/DD HH:mm:ss"
         />
         <DateTimePicker
             label="To"
             onChange={(value) => setToValue(value)}
             value={toValue}
-            format="YYYY/MM/DD HH:mm:ss"
-            inputFormat="YYYY/MM/DD HH:mm:ss"
         />
         <Button onClick={() => handleOnClick()}>
           Search
         </Button>
       </div>
       <div>
-        <WeatherChart metrics={metrics.temperature} average={average} type={weatherMetricTypes.TEMPERATURE} />
-        <WeatherChart metrics={metrics.precipitation} average={average} type={weatherMetricTypes.PRECIPITATION} />
-        <WeatherChart metrics={metrics.windSpeed} average={average} type={weatherMetricTypes.WIND_SPEED} />
+        <WeatherChart metrics={metrics.temperature} average={average} type={weatherMetricTypes.TEMPERATURE} scaleFormat={chartFormat} />
+        <WeatherChart metrics={metrics.precipitation} average={average} type={weatherMetricTypes.PRECIPITATION} scaleFormat={chartFormat} />
+        <WeatherChart metrics={metrics.windSpeed} average={average} type={weatherMetricTypes.WIND_SPEED} scaleFormat={chartFormat}/>
       </div>
     </div>
   )

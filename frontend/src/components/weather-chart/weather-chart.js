@@ -3,7 +3,7 @@ import {LineChart} from '@mui/x-charts';
 import weatherMetricTypes from '../../domain/metric-types';
 import WeatherAverage from './weather-average/weather-average';
 
-const WeatherChart = ({metrics = [], average, type}) => {
+const WeatherChart = ({metrics = [], average, type, scaleFormat}) => {
   if (!metrics.length) {
     return;
   }
@@ -35,6 +35,7 @@ const WeatherChart = ({metrics = [], average, type}) => {
 
   const xConfig = {
     dataKey: 'time',
+    scaleType: scaleFormat,
   };
 
   const series = Object.keys(keyToLabel).map((key) => ({
@@ -51,7 +52,7 @@ const WeatherChart = ({metrics = [], average, type}) => {
         <WeatherAverage average={average} type={type} />
       </Box>
       <LineChart
-          xAxis={[{scaleType: 'time', ...xConfig, hideTooltip: !metrics.length}]}
+          xAxis={[{...xConfig}]}
           yAxis={[{scaleType: 'linear', ...yConfig}]}
           series={series}
           height={400}
