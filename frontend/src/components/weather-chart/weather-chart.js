@@ -3,6 +3,7 @@ import {LineChart} from '@mui/x-charts';
 import weatherMetricTypes from '../../domain/metric-types';
 import WeatherAverage from './weather-average/weather-average';
 import dayjs from 'dayjs';
+import WeatherMetric from '../../domain/weather-metric';
 
 const WeatherChart = ({metrics = [], average, type, scaleFormat}) => {
   if (!metrics.length) {
@@ -13,27 +14,13 @@ const WeatherChart = ({metrics = [], average, type, scaleFormat}) => {
     value: metric.value,
   }));
 
-  const keyToLabel = {};
+  const keyToLabel = {
+    value: weatherMetricTypes.toString(type),
+  };
   const yConfig = {
     dataKey: 'value',
+    valueFormatter: (value) => WeatherMetric.displayMetric(value, type),
   };
-  switch (type) {
-    case weatherMetricTypes.TEMPERATURE:
-      keyToLabel.value = 'Temperature';
-      yConfig.valueFormatter = (value) => metricFormatter(value, type);
-      break;
-    case weatherMetricTypes.WIND_SPEED:
-      keyToLabel.value = 'Wind Speed';
-      yConfig.valueFormatter = (value) => metricFormatter(value, type);
-      break;
-    case weatherMetricTypes.PRECIPITATION:
-      keyToLabel.value = 'Precipitation';
-      yConfig.valueFormatter = (value) => metricFormatter(value, type);
-      break;
-    default:
-      break;
-  }
-
   const xConfig = {
     dataKey: 'time',
     scaleType: scaleFormat,
@@ -43,7 +30,7 @@ const WeatherChart = ({metrics = [], average, type, scaleFormat}) => {
     dataKey: key,
     label: keyToLabel[key],
     color: metricColor(type),
-    valueFormatter: (value) => metricFormatter(value, type),
+    valueFormatter: (value) => WeatherMetric.displayMetric(value, type),
     area: true,
   }));
 
@@ -68,19 +55,6 @@ const WeatherChart = ({metrics = [], average, type, scaleFormat}) => {
       />
     </Box>
   )
-}
-
-const metricFormatter = (value, type) => {
-  switch (type) {
-    case weatherMetricTypes.TEMPERATURE:
-      return `${value}°`;
-    case weatherMetricTypes.WIND_SPEED:
-      return `${value} km/h`;
-    case weatherMetricTypes.PRECIPITATION:
-      return `${value} %`;
-    default:
-      return value;
-  }
 }
 
 const metricColor = (type) => {
