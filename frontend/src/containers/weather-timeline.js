@@ -36,11 +36,21 @@ const WeatherTimeline = () => {
             label="From"
             onChange={(value) => setFromValue(value)}
             value={fromValue}
+            viewRenderers={{
+              hours: null,
+              minutes: null,
+              seconds: null,
+            }}
         />
         <DateTimePicker
             label="To"
             onChange={(value) => setToValue(value)}
             value={toValue}
+            viewRenderers={{
+              hours: null,
+              minutes: null,
+              seconds: null,
+            }}
         />
         <Button onClick={() => handleOnClick()}>
           Search
