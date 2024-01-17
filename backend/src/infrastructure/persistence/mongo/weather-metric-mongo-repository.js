@@ -30,7 +30,7 @@ class WeatherMetricMongoRepository extends WeatherMetricRepository {
       },
     };
     const db = await this.#mongoDbHandler.getInstance();
-    const documents = await db.collection(COLLECTION_NAME).find(filter).toArray();
+    const documents = await db.collection(COLLECTION_NAME).find(filter).sort({timestamp: 1}).toArray();
 
     return documents.map((document) => this.#weatherMetricParser.toDomain(document));
   }

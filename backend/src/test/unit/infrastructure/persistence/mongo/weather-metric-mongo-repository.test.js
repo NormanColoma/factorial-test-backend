@@ -89,6 +89,7 @@ describe('WeatherMetricMongoRepository', () => {
     mongoDbHandlerMock.getInstance.mockReturnValue({
       collection: jest.fn().mockReturnValue({
         find: jest.fn().mockReturnValue({
+          sort: jest.fn().mockReturnThis(),
           toArray: jest.fn().mockResolvedValue([weatherMetricDocument]),
         }),
       }),
@@ -110,6 +111,8 @@ describe('WeatherMetricMongoRepository', () => {
             $lte: date,
           },
         });
+    expect(mongoDbHandlerMock.getInstance().collection().find().sort).
+        toHaveBeenCalledWith({timestamp: 1});
     expect(mongoDbHandlerMock.getInstance().collection().find().toArray).
         toHaveBeenCalled();
     expect(result).toEqual([weatherMetricDomainMock]);
