@@ -1,6 +1,7 @@
 const env = process.env.NODE_ENV;
 const mongoTimeout = process.env.MONGO_TIMEOUT || 5000;
 const mongoConnectionUri = process.env.MONGO_URI || 'mongodb://admin:admin@mongo:27017';
+const rabbitmqUri = process.env.RABBITMQ_URI || 'amqp://guest:guest@rabbitmq:5672';
 
 const run = {
   server: {
@@ -19,6 +20,9 @@ const run = {
       dsn: process.env.SENTRY_DSN,
       environment: process.env.SENTRY_ENVIRONMENT || 'dev',
     },
+  },
+  bus: {
+    rabbitmqUri,
   },
 };
 

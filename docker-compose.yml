@@ -8,8 +8,12 @@ services:
     command: npm run dev
     depends_on:
       - mongo
+      - rabbitmq
     ports:
       - 3000:3000
+    volumes:
+      - ./backend/src:/usr/src/app
+      - /usr/src/app/node_modules
     environment:
       NODE_ENV: run
       MONGO_DB_NAME: weather-metrics
@@ -35,6 +39,16 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin
+    networks:
+      - factorial
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
     networks:
       - factorial
 networks:

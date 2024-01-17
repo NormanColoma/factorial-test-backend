@@ -32,6 +32,7 @@
   "author": "Norman Coloma",
   "license": "ISC",
   "dependencies": {
+    "amqplib": "^0.10.3",
     "awilix": "^4.2.6",
     "axios": "^1.6.5",
     "cors": "^2.8.5",

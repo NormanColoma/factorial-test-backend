@@ -49,7 +49,7 @@ describe('Create weather metric application service', () => {
     expect(eventBusMock.publish).toHaveBeenCalledTimes(1);
     expect(eventBusMock.publish.mock.calls[0][0][0]).toEqual(expect.any(WeatherMetricCreatedEvent));
     expect(eventBusMock.publish.mock.calls[0][0][0].name).toEqual('weather-metric-created');
-    expect(eventBusMock.publish.mock.calls[0][0][0].topic).toEqual('fake-topic');
+    expect(eventBusMock.publish.mock.calls[0][0][0].topic).toEqual('metrics');
   });
 
   test('should throw error when error is thrown while creating weather metric', async () => {
