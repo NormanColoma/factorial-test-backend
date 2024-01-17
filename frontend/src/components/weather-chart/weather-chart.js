@@ -1,4 +1,4 @@
-import {Box, Typography} from '@mui/material';
+import {Box} from '@mui/material';
 import {LineChart} from '@mui/x-charts';
 import weatherMetricTypes from '../../domain/metric-types';
 import WeatherAverage from './weather-average/weather-average';
@@ -51,7 +51,7 @@ const WeatherChart = ({metrics = [], average, type}) => {
         <WeatherAverage average={average} type={type} />
       </Box>
       <LineChart
-          xAxis={[{scaleType: 'utc', ...xConfig, hideTooltip: !metrics.length}]}
+          xAxis={[{scaleType: 'time', ...xConfig, hideTooltip: !metrics.length}]}
           yAxis={[{scaleType: 'linear', ...yConfig}]}
           series={series}
           height={400}
