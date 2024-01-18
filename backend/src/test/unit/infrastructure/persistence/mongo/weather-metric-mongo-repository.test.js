@@ -49,7 +49,7 @@ describe('WeatherMetricMongoRepository', () => {
         weatherMetricDocument);
     mongoDbHandlerMock.getInstance.mockReturnValue({
       collection: jest.fn().mockReturnValue({
-        insertOne: jest.fn().mockResolvedValue(),
+        replaceOne: jest.fn().mockResolvedValue(),
       }),
     });
 
@@ -59,8 +59,9 @@ describe('WeatherMetricMongoRepository', () => {
     expect(mongoDbHandlerMock.getInstance).toHaveBeenCalled();
     expect(mongoDbHandlerMock.getInstance().collection).toHaveBeenCalledWith(
         'metrics');
-    expect(mongoDbHandlerMock.getInstance().collection().insertOne).toHaveBeenCalledWith(
-        weatherMetricDocument);
+    expect(mongoDbHandlerMock.getInstance().collection().replaceOne).
+        toHaveBeenCalledWith({_id: weatherMetricDocument._id},
+            weatherMetricDocument, {upsert: true});
   });
 
   test('should find weather metrics between dates', async () => {
@@ -116,5 +117,73 @@ describe('WeatherMetricMongoRepository', () => {
     expect(mongoDbHandlerMock.getInstance().collection().find().toArray).
         toHaveBeenCalled();
     expect(result).toEqual([weatherMetricDomainMock]);
+  });
+
+  test('should find a weather metric', async () => {
+    const date = new Date();
+    const weatherMetricDocument = {
+      _id: '84a4cb7b-742d-478c-9a08-e008a321a2ef',
+      timestamp: date,
+      name: 'temperature',
+      value: 1,
+      createdAt: date,
+    };
+    const weatherMetric = {
+      id: '84a4cb7b-742d-478c-9a08-e008a321a2ef',
+      timestamp: date,
+      name: 'temperature',
+      value: 1,
+      createdAt: date,
+    };
+    const weatherMetricDomainMock = {
+      toObject: jest.fn(),
+    };
+    muuidMock.from.mockReturnValue({toString: () => weatherMetric.id});
+    weatherMetricDomainMock.toObject.mockReturnValue(weatherMetric);
+    weatherMetricMongoParserMock.toDomain.mockReturnValue(
+        weatherMetricDomainMock);
+    mongoDbHandlerMock.getInstance.mockReturnValue({
+      collection: jest.fn().mockReturnValue({
+        findOne: jest.fn().mockResolvedValue(weatherMetricDocument),
+      }),
+    });
+
+    const result = await weatherMetricMongoRepository.find({
+      timestamp: date,
+      name: 'temperature',
+    });
+    expect(weatherMetricMongoParserMock.toDomain).
+        toHaveBeenCalledWith(weatherMetricDocument);
+    expect(mongoDbHandlerMock.getInstance).toHaveBeenCalled();
+    expect(mongoDbHandlerMock.getInstance().collection).toHaveBeenCalledWith(
+        'metrics');
+    expect(mongoDbHandlerMock.getInstance().collection().findOne).
+        toHaveBeenCalledWith({
+          timestamp: date,
+          name: 'temperature',
+        });
+    expect(result).toEqual(weatherMetricDomainMock);
+  });
+
+  test('should return null when no weather metric is found', async () => {
+    mongoDbHandlerMock.getInstance.mockReturnValue({
+      collection: jest.fn().mockReturnValue({
+        findOne: jest.fn().mockResolvedValue(null),
+      }),
+    });
+
+    const result = await weatherMetricMongoRepository.find({
+      timestamp: new Date(),
+      name: 'temperature',
+    });
+    expect(mongoDbHandlerMock.getInstance).toHaveBeenCalled();
+    expect(mongoDbHandlerMock.getInstance().collection).toHaveBeenCalledWith(
+        'metrics');
+    expect(mongoDbHandlerMock.getInstance().collection().findOne).
+        toHaveBeenCalledWith({
+          timestamp: expect.any(Date),
+          name: 'temperature',
+        });
+    expect(result).toEqual(null);
   });
 });

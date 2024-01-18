@@ -14,7 +14,7 @@ class MongoDbHandler {
         {serverSelectionTimeoutMS: timeout});
     this.#instance = await this.#client.db(dbName);
     await this.#instance.collection('metrics').createIndexes([
-      {name: 'date', key: {'date': 1}},
+      {name: 'timestamp', key: {'timestamp': 1}},
       {name: 'name', key: {'name': 1}},
     ]);
   }

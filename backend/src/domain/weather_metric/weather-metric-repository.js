@@ -9,7 +9,11 @@ class WeatherMetricRepository {
     throw new Error('Method not implemented');
   }
 
-  async findBetweenDates() {
+  async find({name, timestamp}) {
+    throw new Error('Method not implemented');
+  }
+
+  async findBetweenDates(from, to) {
     throw new Error('Method not implemented');
   }
 }

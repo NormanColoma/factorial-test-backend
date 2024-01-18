@@ -19,7 +19,14 @@ class WeatherMetricMongoRepository extends WeatherMetricRepository {
     const db = await this.#mongoDbHandler.getInstance();
     const document = this.#weatherMetricParser.toDocument(weatherMetric);
 
-    await db.collection(COLLECTION_NAME).insertOne(document);
+    await db.collection(COLLECTION_NAME).replaceOne({_id: document._id}, document, {upsert: true});
+  }
+
+  async find({timestamp, name}) {
+    const db = await this.#mongoDbHandler.getInstance();
+
+    const document = await db.collection(COLLECTION_NAME).findOne({timestamp, name});
+    return document ? this.#weatherMetricParser.toDomain(document) : null;
   }
 
   async findBetweenDates({from, to}) {

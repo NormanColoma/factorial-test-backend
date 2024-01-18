@@ -8,6 +8,7 @@ const {weatherMetricTypes} = require(
 describe('Create weather metric application service', () => {
   const weatherMetricRepositoryMock = {
     save: jest.fn(),
+    find: jest.fn(),
   };
   const idGeneratorMock = {
     generate: jest.fn(),
@@ -39,6 +40,7 @@ describe('Create weather metric application service', () => {
     const value = 1.0;
     const id = 'b3b6dfd5-f3b3-45b5-9fb9-23a9b75a13f9';
     idGeneratorMock.generate.mockReturnValue(id);
+    weatherMetricRepositoryMock.find.mockResolvedValue(null);
 
     const command = createWeatherMetricCommandBuilder({name, timestamp, value});
     await applicationService.create(command);
@@ -50,6 +52,23 @@ describe('Create weather metric application service', () => {
     expect(eventBusMock.publish.mock.calls[0][0][0]).toEqual(expect.any(WeatherMetricCreatedEvent));
     expect(eventBusMock.publish.mock.calls[0][0][0].name).toEqual('weather-metric-created');
     expect(eventBusMock.publish.mock.calls[0][0][0].topic).toEqual('metrics');
+  });
+
+  test('should update a weather metric', async () => {
+    const name = weatherMetricTypes.TEMPERATURE;
+    const timestamp = '2021-02-01T17:32:28Z';
+    const value = 1.0;
+    const id = 'b3b6dfd5-f3b3-45b5-9fb9-23a9b75a13f9';
+    idGeneratorMock.generate.mockReturnValue(id);
+    weatherMetricRepositoryMock.find.mockResolvedValue(WeatherMetric.build({id, name, timestamp, value}));
+
+    const command = createWeatherMetricCommandBuilder({name, timestamp, value});
+    await applicationService.create(command);
+
+    const expectedWeatherMetric = WeatherMetric.create({id, name, timestamp, value});
+    expect(weatherMetricRepositoryMock.save.mock.calls[0][0].toObject()).toEqual(expectedWeatherMetric.toObject());
+    expect(idGeneratorMock.generate).not.toHaveBeenCalled();
+    expect(eventBusMock.publish).not.toHaveBeenCalled();
   });
 
   test('should throw error when error is thrown while creating weather metric', async () => {
