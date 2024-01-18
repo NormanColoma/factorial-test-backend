@@ -145,8 +145,7 @@ Besides, I've added Sentry for error tracking, which is a good tool for monitori
 
 ![alt text](https://i.imgur.com/Vp12DY9.png)
 
-For monitoring, I've added New Relic, which allows us to monitor the performance of the /search endpoint
-and the time employed to fetch the events from the external provider service and parse the XML.
+For monitoring, I've added New Relic, which allows us to monitor the performance of the application, the response times, the throughput, etc.
 
 ![alt text](https://i.imgur.com/0ASSnZn.png)
 
