@@ -38,6 +38,9 @@ const test = {
   app: {
     logLevel: 'error',
   },
+  bus: {
+    rabbitmqUri: 'rabbitmqUri',
+  },
 };
 
 const config = {
