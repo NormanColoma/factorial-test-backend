@@ -17,6 +17,7 @@ services:
     environment:
       NODE_ENV: run
       MONGO_DB_NAME: weather-metrics
+      NEW_RELIC_LICENSE_KEY: eu01xx47021c31f334bb9f1ec5cead05FFFFNRAL
     networks:
       - factorial
   front:

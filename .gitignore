@@ -3,6 +3,7 @@ backend/src/coverage
 backend/node_modules/
 backend/src/.env
 backend/npm-debug.log
+backend/src/newrelic_agent.log
 .nyc_output
 .idea
 data

@@ -2,6 +2,7 @@ require('dotenv').config();
 const container = require('./container');
 
 if (process.env.NODE_ENV !== 'test') {
+  require('newrelic');
   const mongoDbHandler = container.resolve('mongoDbHandler');
   mongoDbHandler.getInstance();
   const errorPublisher = container.resolve('errorPublisher');

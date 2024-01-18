@@ -43,6 +43,7 @@
     "express-validator": "^6.6.0",
     "mongodb": "5.8.1",
     "morgan": "^1.10.0",
+    "newrelic": "^11.9.0",
     "uuid": "^8.3.0",
     "uuid-mongodb": "^2.5.4",
     "winston": "^3.11.0"
