@@ -160,4 +160,4 @@ For monitoring, I've added New Relic, which allows us to monitor the performance
 
 1. Clone the repository
 2. Run `docker-compose up` in the root folder. It will build the docker images (node.js backend, mongo, rabbitmq and frontend) and run them.
-3. The frontend will be running on `http://localhost:3001` and the backend on `http://localhost:3000
+3. The frontend will be running on `http://localhost:3001` and the backend on `http://localhost:3000`
